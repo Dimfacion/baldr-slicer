@@ -2,53 +2,22 @@
   <div class="hello">
     <form action="http://localhost:3000/upload" method="post" enctype="multipart/form-data">
       <input name="foo" type="file" />
-      <input type="submit" value="Sending !">
+      <input type="submit" value="Sending !" />
     </form>
-    <vgl-renderer antialias class="renderer" shadow-map-enabled scene="main-scene" camera="main-camera">
-      <vgl-scene background-color="lightgrey" fog="#000000 10 50" name="main-scene">
-        <vgl-stl-loader src="/stl/seahorse.obj" />
-        <vgl-ambient-light intensity="0.5" />
-        <vgl-directional-light position="1 1 1" intensity="0.5" />
-      </vgl-scene>
-      <vgl-perspective-camera orbit-position="20 1 1" :fov="fov" :zoom="zoom" name="main-camera" />
-    </vgl-renderer>
+
+    <model-gcode src="stl/CE5_fox.gcode"></model-gcode>
   </div>
 </template>
 
 <script>
-import Vue from 'vue'
-import {
-  VglRenderer,
-  VglPerspectiveCamera,
-  VglMesh,
-  VglScene,
-  VglBoxGeometry,
-  VglHemisphereLight,
-  VglDirectionalLight,
-  VglAmbientLight,
-  VglMeshStandardMaterial
-} from "vue-gl";
-
-const VglStlLoader = require('@/components/loaders/vgl-stl-loader')
-Vue.component('VglStlLoader', VglStlLoader);
+import ModelGcode from "@/components/loaders/model-gcode";
 
 export default {
   name: "Viewer",
   props: {
-    msg: String,
+    msg: String
   },
-  components: {
-    VglRenderer,
-    VglPerspectiveCamera,
-    VglMesh,
-    VglScene,
-    VglBoxGeometry,
-    VglHemisphereLight,
-    VglDirectionalLight,
-    VglAmbientLight,
-    VglMeshStandardMaterial,
-    VglStlLoader
-  },
+  components: { ModelGcode },
   data: () => ({
     fov: 50,
     zoom: 1,
@@ -58,8 +27,8 @@ export default {
     g: 255,
     gr: 127,
     gb: 127,
-    gg: 127,
-  }),
+    gg: 127
+  })
 };
 </script>
 
