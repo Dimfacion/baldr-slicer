@@ -1,5 +1,9 @@
 <template>
   <div class="hello">
+    <form action="http://localhost:3000/upload" method="post" enctype="multipart/form-data">
+      <input name="foo" type="file" />
+      <input type="submit" value="Sending !">
+    </form>
     <vgl-renderer antialias class="renderer" shadow-map-enabled scene="main-scene" camera="main-camera">
       <vgl-scene background-color="lightgrey" fog="#000000 10 50" name="main-scene">
         <vgl-stl-loader src="/stl/seahorse.obj" />
@@ -12,6 +16,7 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import {
   VglRenderer,
   VglPerspectiveCamera,
@@ -21,10 +26,11 @@ import {
   VglHemisphereLight,
   VglDirectionalLight,
   VglAmbientLight,
-  VglMeshStandardMaterial,
+  VglMeshStandardMaterial
 } from "vue-gl";
 
 const VglStlLoader = require('@/components/loaders/vgl-stl-loader')
+Vue.component('VglStlLoader', VglStlLoader);
 
 export default {
   name: "Viewer",

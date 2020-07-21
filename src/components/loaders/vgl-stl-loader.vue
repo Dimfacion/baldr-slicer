@@ -1,4 +1,5 @@
  
+<script>
 import { OBJLoader2Parallel } from 'three/examples/jsm/loaders/OBJLoader2Parallel';
 import { Object3D } from 'three';
 import { VglObject3d } from 'vue-gl';
@@ -18,3 +19,4 @@ export default {
     },
   },
 };
+</script>
