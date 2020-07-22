@@ -1,11 +1,24 @@
 <script>
 import { GCodeLoader } from "three/examples/jsm/loaders/GCodeLoader";
-import { WebGLRenderer } from "three";
-import ModelMixin from "vue-3d-model/src/model-mixin";
+import mixin from "vue-3d-model/src/model-mixin";
+
+const suportWebGL = (() => {
+  try {
+    const canvas = document.createElement('canvas');
+    return !!(window.WebGLRenderingContext && (canvas.getContext('webgl') || canvas.getContext('experimental-webgl')));
+  } catch (e) {
+    return false;
+  }
+})();
+
+const DEFAULT_GL_OPTIONS = {
+  antialias: true,
+  alpha: true,
+};
 
 export default {
   name: "model-gcode",
-  mixins: [ModelMixin],
+  mixins: [mixin],
   props: {
     lights: {
       type: Array,
@@ -30,35 +43,12 @@ export default {
     }
   },
   data() {
-    const loader = new GCodeLoader();
-    loader.setCrossOrigin(this.crossOrigin);
     return {
-      loader
-    };
+      loader : new GCodeLoader(),
+      suportWebGL : suportWebGL
+    }
   },
   methods: {
-    load() {
-      if (!this.src) return;
-      if (this.object) {
-        this.wrapper.remove(this.object);
-      }
-      this.loader.load(
-        this.src,
-        data => {
-          this.addObject(data.scene);
-          var renderer = new WebGLRenderer();
-          renderer.setPixelRatio(window.devicePixelRatio);
-          renderer.setSize(window.innerWidth, window.innerHeight);
-          this.renderer.render(data.scene, data.camera);
-        },
-        xhr => {
-          this.$emit("on-progress", xhr);
-        },
-        err => {
-          this.$emit("on-error", err);
-        }
-      );
-    }
   }
 };
 </script>
