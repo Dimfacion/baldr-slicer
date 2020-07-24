@@ -7,6 +7,7 @@
     v-loading="loading"
     element-loading-background="rgba(0, 0, 0, 0.8)"
   >
+      <splash :visible="splashScreenVisible"/>
       <el-tooltip class="item" effect="dark" content="Settings" placement="top" :open-delay="200">
         <el-button
           class="config"
@@ -30,9 +31,11 @@
       <el-drawer
         title="Config"
         :visible.sync="drawer"
-        direction="ltr"
+        direction="rtl"
         custom-class="drawer"
         size="30%"
+        :modal="false"
+        :modal-append-to-body="false"
       >
         <el-table>
           <el-table-column
@@ -67,21 +70,29 @@ import "element-ui/lib/theme-chalk/index.css";
 // @ is an alias to /src
 import Viewer from '@/components/widgets/Viewer.vue'
 import BaldrApi from '@/components/services/baldrApi.services'
+import Splash from "@/components/widgets/Splash";
 
 Vue.use(ElementUI);
 
 export default {
   name: 'Home',
   components: {
-    Viewer
+    Viewer,
+    Splash
   },
   data() {
     return {
       drawer: false,
       file: undefined,
       fileGCode: undefined,
-      loading: false
+      loading: false,
+      splashScreenVisible: true
     };
+  },
+  mounted: function() {
+    setTimeout(() => {
+      this.splashScreenVisible = false;
+    }, 2000);
   },
   methods: {
     addFile(e) {
@@ -108,13 +119,13 @@ export default {
 <style scoped lang="scss">
 .config {
   position: fixed;
-  left: 20px;
-  top: 20px;
+  right: 20px;
+  bottom: 20px;
 }
 .slice {
   position: fixed;
-  left: 60px;
-  top: 20px;
+  right: 80px;
+  bottom: 20px;
 }
 .hide {
   display: none;

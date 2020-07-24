@@ -1,35 +1,42 @@
 <template>
   <div class="hello">
-    <span v-if="!showGCode">
+    <el-row>
+      <el-button-group>
+        <el-button :type="getTypeButton('STL')" @click="showTab = 'STL'">STL</el-button>
+        <el-button :type="getTypeButton('GCODE')" @click="showTab = 'GCODE'">GCode</el-button>
+        <el-button :type="getTypeButton('REPO')" @click="showTab = 'REPO'">Profile Repository</el-button>
+      </el-button-group>
+    </el-row>
+    <span v-if="showTab === 'STL'">
       <model-stl :src="fileAsDataUrl" />
     </span>
-    <span v-if="showGCode">
+    <span v-if="showTab === 'GCODE'">
       <model-gcode :src="fileGCodeAsDataUrl" />
     </span>
-    <el-switch
-      class="view-switch"
-      v-model="showGCode"
-      active-text="GCode"
-      inactive-text="STL">
-    </el-switch>
+    <span v-if="showTab === 'REPO'">
+      <repository />
+    </span>
   </div>
 </template>
 
 <script>
 import ModelGcode from "@/components/loaders/model-gcode";
+import Repository from "@/components/widgets/Repository";
 import { ModelStl } from 'vue-3d-model';
 
 export default {
   name: "Viewer",
-  components: { ModelGcode, ModelStl },
+  components: { ModelGcode, ModelStl, Repository },
   props: {
     file: File,
-    fileGCode: Blob
+    fileGCode: Blob,
+    defaultProfiles: Array
   },
   data: () => ({
     fileAsDataUrl: undefined,
     fileGCodeAsDataUrl: undefined,
-    showGCode: false
+    showTab: 'STL',
+    defaultProfilesRepo: undefined
   }),
   watch: {
     file: function(val) {
@@ -56,9 +63,14 @@ export default {
 
         reader.addEventListener("load", function(){
           this.fileGCodeAsDataUrl = reader.result;
-          this.showGCode = true;
+          this.showTab = "GCODE";
         }.bind(this), false);
       }
+    }
+  },
+  methods: {
+    getTypeButton(value) {
+      return (this.showTab === value ? 'primary' : '');
     }
   }
 };
@@ -67,7 +79,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 .hello {
-  height: 100%;
+  height: calc(100% - 40px);
   width: 100%;
 }
 

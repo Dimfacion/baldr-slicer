@@ -24,6 +24,24 @@ var slice = function(file) {
         });
 }
 
+var getPublicProfiles = function() {
+
+    return fetch( 'http://localhost:3000/public/profiles',
+        {
+            method: 'GET',
+            headers: {
+                'Content-Encoding': 'gzip'
+            }
+        }
+        ).then(response=>{
+            return response;
+        })
+        .catch(response=>{
+            console.log(response);
+        });
+}
+
 export default {
   slice: slice,
+  getPublicProfiles: getPublicProfiles
 }
