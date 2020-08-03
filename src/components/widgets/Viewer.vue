@@ -81,6 +81,7 @@ export default {
 .hello {
   height: calc(100% - 40px);
   width: 100%;
+  outline: none;
 }
 
 .renderer {

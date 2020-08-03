@@ -3,12 +3,12 @@ import VueResource from 'vue-resource';
 
 Vue.use(VueResource);
 
-var slice = function(file) {
+var slice = function(file, slicerType) {
     let formData = new FormData();
     formData.append('upload_file',file.item(0))
     formData.append('id',123)
 
-    return fetch( 'http://localhost:3000/upload',
+    return fetch( 'http://localhost:3000/upload/' + slicerType,
         {
             method: 'POST',
             headers: {
