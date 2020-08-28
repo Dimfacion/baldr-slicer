@@ -7,7 +7,6 @@
     v-loading="loading"
     element-loading-background="rgba(0, 0, 0, 0.8)"
   >
-    <splash :visible="splashScreenVisible" />
     <el-tooltip class="item" effect="dark" content="Settings" placement="top" :open-delay="200">
       <el-button
         class="config"
@@ -77,15 +76,13 @@ import "element-ui/lib/theme-chalk/index.css";
 // @ is an alias to /src
 import Viewer from "@/components/widgets/Viewer.vue";
 import BaldrApi from "@/components/services/baldrApi.services";
-import Splash from "@/components/widgets/Splash";
 
 Vue.use(ElementUI);
 
 export default {
   name: "Home",
   components: {
-    Viewer,
-    Splash,
+    Viewer
   },
   data() {
     return {
