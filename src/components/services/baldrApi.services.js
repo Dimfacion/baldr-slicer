@@ -8,7 +8,7 @@ var slice = function(file, slicerType) {
     formData.append('upload_file',file.item(0))
     formData.append('id',123)
 
-    return fetch( 'http://vps-88964143.vps.ovh.net/upload/' + slicerType,
+    return fetch( 'http://vps-88964143.vps.ovh.net:3000/upload/' + slicerType,
         {
             method: 'POST',
             headers: {
@@ -26,7 +26,7 @@ var slice = function(file, slicerType) {
 
 var getPublicProfiles = function() {
 
-    return fetch( 'http://vps-88964143.vps.ovh.net/public/profiles',
+    return fetch( 'http://vps-88964143.vps.ovh.net:3000/public/profiles',
         {
             method: 'GET',
             headers: {
