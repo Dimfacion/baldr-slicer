@@ -79,7 +79,7 @@ export default {
     onSuccess(googleUser) {
       // This only gets the user information: id, name, imageUrl and email
       Store.commit("setUserId", googleUser.getBasicProfile().getId());
-      this.$router.push("Home");
+      this.$router.push("home");
     },
     onFailure(e) {
       console.log(e);
