@@ -2,22 +2,21 @@
   <transition name="el-fade-in">
     <div class="splash">
       <el-row>
-        <el-image class="logo" :src="asset" fit="contain"> </el-image>
+        <el-image class="logo" :src="asset" fit="contain"></el-image>
       </el-row>
       <el-row>
-        <h1>
-          BALDR SLICER
-        </h1>
+        <h1>BALDR SLICER</h1>
       </el-row>
-      <el-row>
-        Login
+      <el-row class="beta">
+        <h2>ALPHA VERSION</h2>You should know that the state of this app is not viable yet.
+        <p>Please, bear in mind that NO gcode from this app should be used without proper supervision.</p>
+        <p>I cannot be held responsible for any damage that might come from using this app.</p>
       </el-row>
+      <el-row>Login</el-row>
       <el-row>
         <input type="text" />
       </el-row>
-      <el-row>
-        Password
-      </el-row>
+      <el-row>Password</el-row>
       <el-row>
         <input type="text" />
       </el-row>
@@ -26,7 +25,12 @@
           <el-button type="primary" icon="el-icon-key" style="width:100%" disabled>Login</el-button>
         </el-col>
         <el-col :span="3">
-          <el-button type="primary" icon="el-icon-user" style="width:100%" disabled>Create an account</el-button>
+          <el-button
+            type="primary"
+            icon="el-icon-user"
+            style="width:100%"
+            disabled
+          >Create an account</el-button>
         </el-col>
       </el-row>
       <el-row>
@@ -35,7 +39,7 @@
       <el-row type="flex" class="row-bg" justify="center">
         <!-- Button to login with google ui rendered using the renderParams object 
       // The rendered button can't be use to logout since it is rendered by the google api and will only login 
-      // If you add the logoutButton param to true it will show a normal button without styles -->
+        // If you add the logoutButton param to true it will show a normal button without styles-->
         <GoogleLogin
           :span="6"
           :params="params"
@@ -66,7 +70,8 @@ export default {
     asset,
     // client_id is the only required property but you can add several more params, full list down bellow on the Auth api section
     params: {
-      client_id: "363920284035-ogo0scmrl8a1oi8jtn3a9pcfdcm5etg2.apps.googleusercontent.com",
+      client_id:
+        "363920284035-ogo0scmrl8a1oi8jtn3a9pcfdcm5etg2.apps.googleusercontent.com",
     },
     // only needed if you want to render the button with the google ui
     renderParams: {
@@ -79,7 +84,7 @@ export default {
     onSuccess(googleUser) {
       // This only gets the user information: id, name, imageUrl and email
       Store.commit("setUserId", googleUser.getBasicProfile().getId());
-      this.$router.push("Home");
+      this.$router.push("home");
     },
     onFailure(e) {
       console.log(e);
@@ -108,5 +113,22 @@ export default {
 
 .el-row {
   margin-top: 10px;
+}
+
+.beta {
+  margin-top: 0px;
+  color: #aa0000;
+  margin-bottom: 10px;
+}
+.beta h2 {
+  margin-top: 0px;
+  margin-bottom: 5px;
+}
+.beta h1 {
+  margin-bottom: 0px;
+}
+.beta p {
+  margin-top: 0px;
+  margin-bottom: 0px;
 }
 </style>
