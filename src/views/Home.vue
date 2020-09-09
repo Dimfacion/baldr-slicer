@@ -82,7 +82,7 @@ Vue.use(ElementUI);
 export default {
   name: "Home",
   components: {
-    Viewer
+    Viewer,
   },
   data() {
     return {
@@ -94,9 +94,9 @@ export default {
     };
   },
   mounted: function () {
-    setTimeout(() => {
-      this.splashScreenVisible = false;
-    }, 2000);
+    BaldrApi.getConfig()
+      .then((response) => response.json())
+      .then((data) => console.log(data));
   },
   methods: {
     addFile(e) {

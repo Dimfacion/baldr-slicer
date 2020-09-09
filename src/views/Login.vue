@@ -8,7 +8,7 @@
         <h1>BALDR SLICER</h1>
       </el-row>
       <el-row class="beta">
-        <h2>ALPHA VERSION</h2>You should know that the state of this app is not viable yet.
+        <h2>ALPHA VERSION</h2>You should know that the state of this app is not viable yet. As of now, it is only for demonstration purpose.
         <p>Please, bear in mind that NO gcode from this app should be used without proper supervision.</p>
         <p>I cannot be held responsible for any damage that might come from using this app.</p>
       </el-row>
