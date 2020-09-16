@@ -10,7 +10,7 @@
       <el-row class="beta">
         <h2>ALPHA VERSION</h2>You should know that the state of this app is not viable yet.
         <p>Please, bear in mind that NO gcode from this app should be used without proper supervision.</p>
-        <p>I cannot be held responsible for any damage that might come from using this app.</p>
+        <p>I cannot be held responsible for any damage that might come from using this app.Test.</p>
       </el-row>
       <el-row>Login</el-row>
       <el-row>
