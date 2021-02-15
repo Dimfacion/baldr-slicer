@@ -28,6 +28,7 @@
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item command="prusaslicer">Slice using PrusaSlicer</el-dropdown-item>
           <el-dropdown-item command="slic3r">Slice using Slic3r</el-dropdown-item>
+          <el-dropdown-item command="curaengine">Slice using Cura Engine</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </el-tooltip>
@@ -146,8 +147,8 @@ export default {
 }
 .sliceDropDown {
   position: fixed;
-  right: 80px;
-  bottom: 120px;
+  right: 100px;
+  bottom: 60px;
 }
 .load-button {
   position: fixed;

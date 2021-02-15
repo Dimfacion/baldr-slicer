@@ -12,7 +12,7 @@ var slice = function(file, slicerType) {
         {
             method: 'POST',
             headers: {
-                'Content-Encoding': 'gzip'
+                'Content-Encoding': 'br'
             },
             body: formData // This is your file object
         }
@@ -30,7 +30,7 @@ var getPublicProfiles = function() {
         {
             method: 'GET',
             headers: {
-                'Content-Encoding': 'gzip'
+                'Content-Encoding': 'br'
             }
         }
         ).then(response=>{
