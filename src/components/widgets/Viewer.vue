@@ -1,26 +1,24 @@
 <template>
   <div class="hello">
-    <el-row>
-      <el-button-group>
-        <el-button :type="getTypeButton('STL')" @click="showTab = 'STL'">STL</el-button>
-        <el-button :type="getTypeButton('GCODE')" @click="showTab = 'GCODE'">GCode</el-button>
-        <el-button :type="getTypeButton('REPO')" @click="showTab = 'REPO'">Profile Repository</el-button>
-      </el-button-group>
-    </el-row>
+    <b-row class="view-switch">
+      <b-button-group>
+        <b-button :pressed="showTab === 'STL'" @click="showTab = 'STL'" variant="primary" ><b-icon icon="box-seam"></b-icon> STL Viewer</b-button>
+        <b-button :pressed="showTab === 'GCODE'" @click="showTab = 'GCODE'" variant="primary" ><b-icon icon="border-style"></b-icon> GCode Viewer</b-button>
+      </b-button-group>
+    </b-row>
     <span v-if="showTab === 'STL'">
       <model-stl
         :src="fileAsDataUrl"
         :position="objectPosition"
         :camera-position="{x:0, y:-100, z:200}"
         ref="modelSTL"
+        class="no-outline all-height"
         v-on:on-load="loaded"
       />
     </span>
     <span v-if="showTab === 'GCODE'">
-      <model-gcode :src="fileGCodeAsDataUrl" ref="modelGCODE" v-on:on-load="loaded" />
-    </span>
-    <span v-if="showTab === 'REPO'">
-      <repository />
+      <model-gcode :src="fileGCodeAsDataUrl" ref="modelGCODE"
+        class="no-outline" v-on:on-load="loaded" />
     </span>
   </div>
 </template>
@@ -92,9 +90,6 @@ export default {
   },
   mounted() {},
   methods: {
-    getTypeButton(value) {
-      return this.showTab === value ? "primary" : "";
-    },
     loaded() {
       var gridHelper = new GridHelper(200, 20, 0x0000ff, 0x808080);
       gridHelper.geometry.rotateX(Math.PI / 2);
@@ -146,7 +141,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 .hello {
-  height: calc(100% - 40px);
+  height: calc(100% );
   width: 100%;
   outline: none;
 }
@@ -173,5 +168,14 @@ a {
 .view-switch {
   position: fixed;
   bottom: 20px;
+  left: 30px;
+}
+
+.no-outline {
+  outline: none;
+}
+
+.all-height {
+  height: 100%
 }
 </style>

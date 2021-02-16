@@ -1,62 +1,91 @@
 <template>
-  <div
-    v-cloak
-    id="app"
-    @drop.prevent="addFile"
-    @dragover.prevent
-    v-loading="loading"
-    element-loading-background="rgba(0, 0, 0, 0.8)"
-  >
-    <el-tooltip class="item" effect="dark" content="Settings" placement="top" :open-delay="200">
-      <el-button
-        class="config"
-        type="primary"
-        icon="el-icon-s-tools"
-        circle
-        @click="drawer = !drawer"
-      />
-    </el-tooltip>
-    <el-tooltip class="item" effect="dark" content="Slice" placement="top" :open-delay="200">
-      <el-dropdown class="sliceDropDown" placement="bottom" @command="submit">
-        <el-button
-          class="slice"
-          type="primary"
-          icon="el-icon-magic-stick"
-          circle
-          :disabled="file === undefined"
-        />
-        <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item command="prusaslicer">Slice using PrusaSlicer</el-dropdown-item>
-          <el-dropdown-item command="slic3r">Slice using Slic3r</el-dropdown-item>
-          <el-dropdown-item command="curaengine">Slice using Cura Engine</el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
-    </el-tooltip>
-    <el-tooltip class="item" effect="dark" content="Load" placement="top" :open-delay="200">
-      <el-button
-        class="load-button"
-        type="primary"
-        icon="el-icon-folder-opened"
-        circle
-        tooltip="Slice"
-        @click="openInputFile"
-      />
-    </el-tooltip>
-    <el-drawer
-      title="Config"
-      :visible.sync="drawer"
-      direction="rtl"
-      custom-class="drawer"
-      size="30%"
-      :modal="false"
-      :modal-append-to-body="false"
-    >
-      <el-table>
-        <el-table-column label="Name" width="180" />
-      </el-table>
-    </el-drawer>
-    <Viewer :file="file" :fileGCode="fileGCode" />
+  <div id="app" @drop.prevent="addFile" @dragover.prevent>
+    <b-overlay :show="loading" class="all-height" rounded="sm">
+      <b-container fluid>
+        <b-row align-content="right" class="text-right">
+          <b-col class="tools-button">
+            <b-button
+              v-b-tooltip.hover
+              title="Load"
+              class="load-button"
+              variant="primary"
+              icon="b-icon-folder-opened"
+              circle
+              tooltip="Load"
+              @click="openInputFile"
+              ><b-icon icon="folder"></b-icon
+            ></b-button>
+            <b-button
+              v-b-tooltip.hover
+              title="Profile Repository"
+              class="load-button"
+              variant="primary"
+              circle
+              tooltip="Profile Repository"
+              v-b-toggle.sidebar-repo
+              ><b-icon icon="search"></b-icon
+            ></b-button>
+            <b-button
+              v-b-tooltip.hover
+              title="Settings"
+              class="config"
+              variant="primary"
+              icon="b-icon-s-tools"
+              circle
+              v-b-toggle.sidebar-config
+              ><b-icon icon="gear"></b-icon
+            ></b-button>
+            <b-button
+              v-b-tooltip.hover
+              title="Slice"
+              class="slice"
+              variant="primary"
+              icon="b-icon-magic-stick"
+              circle
+              @click="submit"
+              :disabled="file === undefined"
+              ><b-icon icon="bar-chart-steps"></b-icon
+            ></b-button>
+          </b-col>
+          <b-col cols="2" lg="auto" class="slicer-button">
+            <b-card class="text-center">
+              <b-form-group
+                label="Slicer :"
+                label-for="sliceengine"
+              >
+                <b-form-select id="sliceengine" v-model="type">
+                  <b-form-select-option value="prusaslicer"
+                    >PrusaSlicer</b-form-select-option
+                  >
+                  <b-form-select-option value="curaengine"
+                    >CuraEngine</b-form-select-option
+                  >
+                  <b-form-select-option value="slic3r"
+                    >Slic3r</b-form-select-option
+                  >
+                </b-form-select>
+              </b-form-group>
+            </b-card>
+          </b-col>
+        </b-row>
+      </b-container>
+      <b-sidebar title="Config" id="sidebar-config" right shadow>
+        <b-table>
+          <b-table-column label="Name" width="180" />
+        </b-table>
+      </b-sidebar>
 
+      <b-sidebar
+        title="Profile Repository"
+        id="sidebar-repo"
+        width="100%"
+        right
+        shadow
+      >
+        <repository />
+      </b-sidebar>
+      <Viewer :file="file" :fileGCode="fileGCode" />
+    </b-overlay>
     <form
       ref="form"
       action="http://localhost:3000/upload"
@@ -66,24 +95,36 @@
     >
       <input ref="file" name="foo" type="file" />
     </form>
-    <input ref="stlFileLoader" name="foo" type="file" class="hide" @change="addFileButton" />
+    <input
+      ref="stlFileLoader"
+      name="foo"
+      type="file"
+      class="hide"
+      @change="addFileButton"
+    />
   </div>
 </template>
 
 <script>
 import Vue from "vue";
-import ElementUI from "element-ui";
-import "element-ui/lib/theme-chalk/index.css";
 // @ is an alias to /src
 import Viewer from "@/components/widgets/Viewer.vue";
 import BaldrApi from "@/components/services/baldrApi.services";
+import { BootstrapVue, IconsPlugin } from "bootstrap-vue";
 
-Vue.use(ElementUI);
+// Import Bootstrap an BootstrapVue CSS files (order is important)
+import "bootstrap/dist/css/bootstrap.css";
+import "bootstrap-vue/dist/bootstrap-vue.css";
+
+// Make BootstrapVue available throughout your project
+Vue.use(BootstrapVue);
+// Optionally install the BootstrapVue icon components plugin
+Vue.use(IconsPlugin);
 
 export default {
   name: "Home",
   components: {
-    Viewer
+    Viewer,
   },
   data() {
     return {
@@ -92,6 +133,7 @@ export default {
       fileGCode: undefined,
       loading: false,
       splashScreenVisible: true,
+      type: "prusaslicer",
     };
   },
   mounted: function () {
@@ -118,9 +160,9 @@ export default {
       });
       this.$refs.file.files = droppedFiles;
     },
-    submit(type) {
+    submit() {
       this.loading = true;
-      BaldrApi.slice(this.$refs.file.files, type)
+      BaldrApi.slice(this.$refs.file.files, this.type)
         .then((re) => re.blob())
         .then((blob) => {
           this.fileGCode = blob;
@@ -135,27 +177,23 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.config {
-  position: fixed;
-  right: 20px;
-  bottom: 20px;
-}
-.slice {
-  position: fixed;
-  right: 80px;
-  bottom: 20px;
-}
-.sliceDropDown {
-  position: fixed;
-  right: 100px;
-  bottom: 60px;
-}
-.load-button {
-  position: fixed;
-  right: 140px;
-  bottom: 20px;
-}
 .hide {
   display: none;
+}
+
+.all-height {
+  height: 100%;
+}
+
+.tools-button {
+  position: fixed;
+  bottom: 20px;
+  right: 10px;
+}
+
+.slicer-button {
+  position: fixed;
+  top: 20px;
+  right: 10px;
 }
 </style>

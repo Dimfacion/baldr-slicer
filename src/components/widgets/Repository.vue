@@ -4,15 +4,6 @@
       placeholder="Filter keyword"
       v-model="filterText">
     </el-input>-->
-
-    <el-tree
-      class="filter-tree"
-      :data="data"
-      :props="defaultProps"
-      node-key="id"
-      :filter-node-method="filterNode"
-      ref="tree">
-    </el-tree>
   </div>
 </template>
 

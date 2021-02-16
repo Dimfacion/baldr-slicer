@@ -1,64 +1,90 @@
 <template>
   <transition name="el-fade-in">
     <div class="splash">
-      <el-row>
-        <el-image class="logo" :src="asset" fit="contain"></el-image>
-      </el-row>
-      <el-row>
-        <h1>BALDR SLICER</h1>
-      </el-row>
-      <el-row class="beta">
-        <h2>ALPHA VERSION</h2>You should know that the state of this app is not viable yet.
-        <p>Please, bear in mind that NO gcode from this app should be used without proper supervision.</p>
-        <p>I cannot be held responsible for any damage that might come from using this app.</p>
-      </el-row>
-      <el-row>Login</el-row>
-      <el-row>
-        <input type="text" />
-      </el-row>
-      <el-row>Password</el-row>
-      <el-row>
-        <input type="text" />
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="3" :offset="9">
-          <el-button type="primary" icon="el-icon-key" style="width:100%" disabled>Login</el-button>
-        </el-col>
-        <el-col :span="3">
-          <el-button
-            type="primary"
-            icon="el-icon-user"
-            style="width:100%"
-            disabled
-          >Create an account</el-button>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-link type="primary" disabled>I forgot my password</el-link>
-      </el-row>
-      <el-row type="flex" class="row-bg" justify="center">
-        <!-- Button to login with google ui rendered using the renderParams object 
-      // The rendered button can't be use to logout since it is rendered by the google api and will only login 
-        // If you add the logoutButton param to true it will show a normal button without styles-->
-        <GoogleLogin
-          :span="6"
-          :params="params"
-          :renderParams="renderParams"
-          :onSuccess="onSuccess"
-          :onFailure="onFailure"
-        ></GoogleLogin>
-      </el-row>
+      <b-container fluid>
+        <b-row align-h="center" class="mt-1">
+          <b-img class="logo" :src="asset" fit="contain"></b-img>
+        </b-row>
+        <b-row align-h="center" class="mt-1">
+          <h1>BALDR SLICER</h1>
+        </b-row>
+        <b-row class="beta" align-h="center">
+          <h2>ALPHA VERSION</h2>
+        </b-row>
+        <b-row class="beta" align-h="center">
+          <p>You should know that the state of this app is not viable yet.</p>
+        </b-row>
+        <b-row class="beta" align-h="center">
+          <p>
+            Please, bear in mind that NO gcode from this app should be used
+            without proper supervision.
+          </p>
+        </b-row>
+        <b-row class="beta" align-h="center">
+          <p>
+            I cannot be held responsible for any damage that might come from
+            using this app.
+          </p>
+        </b-row>
+        <b-row align-h="center" class="mt-1">Login</b-row>
+        <b-row align-h="center" class="mt-1">
+          <input type="text" />
+        </b-row>
+        <b-row align-h="center" class="mt-1">Password</b-row>
+        <b-row align-h="center" class="mt-1">
+          <input type="text" />
+        </b-row>
+        <b-row align-h="center" class="mt-2">
+          <b-col :cols="2">
+            <b-button variant="primary" style="width: 100%" @click="goToHome()">
+              <b-icon icon="key"></b-icon>&nbsp;Login</b-button
+            >
+          </b-col>
+          <b-col :cols="2">
+            <b-button variant="primary" style="width: 100%" disabled
+              ><b-icon icon="person"></b-icon>&nbsp;Create an account</b-button
+            >
+          </b-col>
+        </b-row>
+        <b-row align-h="center" class="mt-1">
+          <b-link type="primary" disabled>I forgot my password</b-link>
+        </b-row>
+        <b-row
+          type="flex"
+          align-h="center"
+          class="row-bg mt-3"
+          justify="center"
+        >
+          <!-- Button to login with google ui rendered using the renderParams object 
+        // The rendered button can't be use to logout since it is rendered by the google api and will only login 
+          // If you add the logoutButton param to true it will show a normal button without styles-->
+          <GoogleLogin
+            :span="6"
+            :params="params"
+            :renderParams="renderParams"
+            :onSuccess="onSuccess"
+            :onFailure="onFailure"
+          ></GoogleLogin>
+        </b-row>
+      </b-container>
     </div>
   </transition>
 </template>
 
 <script>
 import Vue from "vue";
-import ElementUI from "element-ui";
-import "element-ui/lib/theme-chalk/index.css"; // It can also be imported as { GoogleLogin }
+import { BootstrapVue, IconsPlugin } from "bootstrap-vue";
+
+// Import Bootstrap an BootstrapVue CSS files (order is important)
+import "bootstrap/dist/css/bootstrap.css";
+import "bootstrap-vue/dist/bootstrap-vue.css";
 import GoogleLogin from "vue-google-login";
 import Store from "../components/store";
-Vue.use(ElementUI);
+
+// Make BootstrapVue available throughout your project
+Vue.use(BootstrapVue);
+// Optionally install the BootstrapVue icon components plugin
+Vue.use(IconsPlugin);
 const asset = require("@/assets/Baldur.jpg");
 
 export default {
@@ -88,6 +114,9 @@ export default {
     },
     onFailure(e) {
       console.log(e);
+    },
+    goToHome() {
+      this.$router.push("home");
     },
   },
 };
