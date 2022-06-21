@@ -114,6 +114,8 @@ export default {
     },
     onFailure(e) {
       console.log(e);
+      Store.commit("setUserId", "Bleh");
+      this.$router.push("home");
     },
     goToHome() {
       this.$router.push("home");
